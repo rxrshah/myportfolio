@@ -18,9 +18,10 @@
   <div class="intro-content">
     <div class="intro-logo">&lt;/&gt;</div>
     <h1 class="intro-name" id="introName">Ritik Kumar</h1>
-    <p class="intro-tagline">Welcome to my Portfolio</p>
+    <p class="intro-tagline" id="introTagline">INITIALIZING...</p>
     <div class="intro-bar"><div class="intro-bar-fill"></div></div>
   </div>
+  <div class="intro-scanlines"></div>
 </div>
 
 <div id="techModalOverlay" class="tech-modal-overlay">
@@ -47,6 +48,7 @@
     <a href="#education">Education</a>
     <a href="#contact">Contact</a>
   </div>
+  <button id="themeToggle" class="theme-toggle mono" title="Switch theme" aria-label="Switch theme">◐ THEME</button>
   <button id="navToggle">☰</button>
 </nav>
 
@@ -108,6 +110,31 @@
 </header>
 
 <main>
+
+  <section id="stats" class="reveal stats-section">
+    <div class="stats-grid">
+      <div class="stat-card">
+        <strong class="stat-num" data-target="15" data-suffix="">0</strong>
+        <small>Projects Built</small>
+      </div>
+      <div class="stat-card">
+        <strong class="stat-num" data-target="2400" data-suffix="+">0</strong>
+        <small>GitHub Commits</small>
+      </div>
+      <div class="stat-card">
+        <strong class="stat-num" data-target="80000" data-suffix="+" data-compact="true">0</strong>
+        <small>Bot Users</small>
+      </div>
+      <div class="stat-card">
+        <strong class="stat-num" data-target="10" data-suffix="M+">0</strong>
+        <small>API Requests</small>
+      </div>
+      <div class="stat-card">
+        <strong class="stat-num" data-target="2" data-suffix=" Yrs">0</strong>
+        <small>Experience</small>
+      </div>
+    </div>
+  </section>
 
   <section id="about" class="reveal full-bg-section">
     <div class="scene-bg" style="--depth:8px">
@@ -284,6 +311,56 @@
     </div>
   </section>
 
+  <section id="journey" class="reveal">
+    <div class="sec-head">
+      <div class="sec-eyebrow">// The Journey</div>
+      <h2 class="sec-title">How I got here</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item reveal-left">
+        <div class="tl-dot"></div>
+        <span class="tl-year mono">2023</span>
+        <h4>Started Programming</h4>
+        <p>Wrote my first lines of Python — got hooked on making things happen with code.</p>
+      </div>
+      <div class="tl-item reveal-right">
+        <div class="tl-dot"></div>
+        <span class="tl-year mono">2023–24</span>
+        <h4>Python &amp; Automation</h4>
+        <p>Moved from scripts to real programs — logic, data structures, small automation tools.</p>
+      </div>
+      <div class="tl-item reveal-left">
+        <div class="tl-dot"></div>
+        <span class="tl-year mono">2024</span>
+        <h4>Telegram Bots</h4>
+        <p>Built Pyrogram-based bots with MongoDB — subscriptions, admin tools, movie bots.</p>
+      </div>
+      <div class="tl-item reveal-right">
+        <div class="tl-dot"></div>
+        <span class="tl-year mono">2024–25</span>
+        <h4>Full-Stack &amp; AI</h4>
+        <p>Picked up JavaScript, React and the AI toolkit — LLMs, RAG, and agentic workflows.</p>
+      </div>
+      <div class="tl-item reveal-left">
+        <div class="tl-dot"></div>
+        <span class="tl-year mono">08/2025</span>
+        <h4>Joined LPU</h4>
+        <p>Started my B.Tech in Computer Science at Lovely Professional University, Phagwara.</p>
+      </div>
+      <div class="tl-item reveal-right">
+        <div class="tl-dot"></div>
+        <span class="tl-year mono">Now</span>
+        <h4>Shipping &amp; Learning</h4>
+        <p>Building real bots and web apps end-to-end, chasing an internship to build with a real team.</p>
+      </div>
+      <div class="tl-item reveal-left">
+        <div class="tl-dot tl-dot-future"></div>
+        <span class="tl-year mono">Future</span>
+        <h4>Open Source &amp; Beyond</h4>
+        <p>Contributing to open source, going deeper into AI systems, and building things that scale.</p>
+      </div>
+    </div>
+  </section>
 
   <section id="projects" class="reveal full-bg-section">
     <div class="scene-bg" style="--depth:16px">
@@ -450,6 +527,7 @@
 </div>
 
 <div class="toast" id="toast">Thanks! I’ll get back soon.</div>
+<div class="egg-overlay" id="eggOverlay"><span id="eggText"></span></div>
 
 <footer>© 2026 Ritik Kumar — built with curiosity, coffee & a bit of anime energy.</footer>
 
