@@ -148,16 +148,29 @@
       });
     }
     const intro = document.getElementById('introScreen');
+    const tagline = document.getElementById('introTagline');
+    const bootLines = ['INITIALIZING...', 'LOADING ASSETS...', 'CONNECTING...', 'RENDERING SCENE...', 'SYSTEM ONLINE...', 'Welcome, Ritik.'];
     const finishIntro = ()=>{
       document.documentElement.classList.remove('intro-lock');
       if(intro){
-        intro.classList.add('intro-hide');
-        setTimeout(()=> intro.remove(), 900);
+        intro.classList.add('intro-glitch');
+        setTimeout(()=>{
+          intro.classList.add('intro-hide');
+          setTimeout(()=> intro.remove(), 900);
+        }, 320);
       }
     };
     if(reduceMotion){
       finishIntro();
     } else {
+      if(tagline){
+        bootLines.forEach((line,i)=>{
+          setTimeout(()=>{
+            tagline.style.opacity = 0;
+            setTimeout(()=>{ tagline.textContent = line; tagline.style.opacity = 1; }, 180);
+          }, i*480);
+        });
+      }
       setTimeout(finishIntro, 3100);
     }
   })();
@@ -293,7 +306,7 @@
   // ---- card physics: 3D tilt + glass glare ----
   if(!reduceMotion && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
     const tiltEls = document.querySelectorAll(
-      '.skill-card, .proj-card, .tech-cat-card, .info-card, .contact-card'
+      '.skill-card, .proj-card, .tech-cat-card, .info-card, .contact-card, .stat-card, .showcase-card, .insight-card'
     );
     tiltEls.forEach(card=>{
       card.classList.add('tilt-card');
@@ -448,3 +461,117 @@
       });
     });
   }
+
+  // ---- animated stat counters ----
+  (function(){
+    const nums = document.querySelectorAll('.stat-num');
+    if(!nums.length) return;
+    function formatVal(n, compact){
+      if(compact && n >= 1000){ return Math.round(n/1000) + 'K'; }
+      return n.toLocaleString('en-US');
+    }
+    function animateCounter(el){
+      const target = parseFloat(el.dataset.target || '0');
+      const suffix = el.dataset.suffix || '';
+      const compact = el.dataset.compact === 'true';
+      const duration = reduceMotion ? 0 : 1400;
+      const start = performance.now();
+      function tick(now){
+        const p = duration ? Math.min(1, (now - start) / duration) : 1;
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(target * eased);
+        el.textContent = formatVal(val, compact) + (p >= 1 ? suffix : '');
+        if(p < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+    const statObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(e=>{
+        if(e.isIntersecting){
+          animateCounter(e.target);
+          statObserver.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.5 });
+    nums.forEach(el=> statObserver.observe(el));
+  })();
+
+  // ---- theme switcher (Dark → Cyberpunk → Matrix → Purple Neon) ----
+  (function(){
+    const btn = document.getElementById('themeToggle');
+    if(!btn) return;
+    const themes = ['dark', 'cyberpunk', 'matrix', 'purple-neon'];
+    const labels = { dark:'◐ THEME', cyberpunk:'◈ CYBER', matrix:'▣ MATRIX', 'purple-neon':'◆ NEON' };
+    let saved = 'dark';
+    try{ saved = localStorage.getItem('ritik-theme') || 'dark'; }catch(e){}
+    function applyTheme(t){
+      if(t === 'dark'){ document.documentElement.removeAttribute('data-theme'); }
+      else{ document.documentElement.setAttribute('data-theme', t); }
+      btn.textContent = labels[t];
+      try{ localStorage.setItem('ritik-theme', t); }catch(e){}
+    }
+    applyTheme(saved);
+    btn.addEventListener('click', ()=>{
+      const current = document.documentElement.getAttribute('data-theme') || 'dark';
+      const next = themes[(themes.indexOf(current) + 1) % themes.length];
+      applyTheme(next);
+    });
+  })();
+
+  // ---- easter eggs: typed keywords + Konami code ----
+  (function(){
+    const overlay = document.getElementById('eggOverlay');
+    const eggText = document.getElementById('eggText');
+    if(!overlay || !eggText) return;
+    let hideTimer = null;
+    function showEgg(msg, extraClass){
+      eggText.textContent = msg;
+      overlay.classList.add('show');
+      if(extraClass) document.body.classList.add(extraClass);
+      clearTimeout(hideTimer);
+      hideTimer = setTimeout(()=>{ overlay.classList.remove('show'); }, 2600);
+    }
+
+    let typedBuffer = '';
+    const konamiSeq = ['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight','b','a'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e)=>{
+      // Konami code tracking
+      const key = e.key;
+      if(key === konamiSeq[konamiIndex]){
+        konamiIndex++;
+        if(konamiIndex === konamiSeq.length){
+          showEgg('⚡ KONAMI UNLOCKED ⚡');
+          document.body.classList.add('shadow-mode');
+          setTimeout(()=> document.body.classList.remove('shadow-mode'), 4000);
+          konamiIndex = 0;
+        }
+      } else {
+        konamiIndex = (key === konamiSeq[0]) ? 1 : 0;
+      }
+
+      // typed keyword tracking (letters only)
+      if(/^[a-zA-Z]$/.test(key)){
+        typedBuffer = (typedBuffer + key.toLowerCase()).slice(-10);
+        if(typedBuffer.endsWith('ritik')){
+          showEgg('👑 The Dev Himself');
+          typedBuffer = '';
+        } else if(typedBuffer.endsWith('shadow')){
+          showEgg('Arise...');
+          document.body.classList.add('shadow-mode');
+          setTimeout(()=> document.body.classList.remove('shadow-mode'), 4500);
+          typedBuffer = '';
+        } else if(typedBuffer.endsWith('solo')){
+          showEgg('🗡 Solo Leveling Mode');
+          const prev = document.documentElement.getAttribute('data-theme');
+          document.documentElement.setAttribute('data-theme', 'purple-neon');
+          setTimeout(()=>{
+            if(prev) document.documentElement.setAttribute('data-theme', prev);
+            else document.documentElement.removeAttribute('data-theme');
+          }, 4500);
+          typedBuffer = '';
+        }
+      }
+    });
+  })();
