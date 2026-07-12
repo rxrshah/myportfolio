@@ -3,7 +3,7 @@
 
 Personal developer portfolio for Ritik Kumar — Full-Stack Developer specializing in AI.
 
-** 🟢 Live:** [myportfolio-rxritik.vercel.app](https://myportfolio-rxritik.vercel.app/)
+**🟢 Live:** [myportfolio-rxritik.vercel.app](https://myportfolio-rxritik.vercel.app/)
 
 A static, no-build-step site — plain HTML/CSS/JS. No framework, no bundler, nothing to install to run it.
 
