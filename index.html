@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en" class="intro-lock">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Ritik Kumar — Full-Stack Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/css/style.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.1.13/lenis.min.js"></script>
+</head>
+<body>
+
+<div id="introScreen">
+  <div class="intro-glow"></div>
+  <div class="intro-content">
+    <div class="intro-logo">&lt;/&gt;</div>
+    <h1 class="intro-name" id="introName">Ritik Kumar</h1>
+    <p class="intro-tagline">Welcome to my Portfolio</p>
+    <div class="intro-bar"><div class="intro-bar-fill"></div></div>
+  </div>
+</div>
+
+<div id="techModalOverlay" class="tech-modal-overlay">
+  <div class="tech-modal" role="dialog" aria-modal="true" aria-labelledby="techModalTitle">
+    <button class="tech-modal-close" id="techModalClose" aria-label="Close">✕</button>
+    <div class="tech-modal-icon" id="techModalIcon"></div>
+    <h3 id="techModalTitle"></h3>
+    <p id="techModalDesc"></p>
+  </div>
+</div>
+
+<canvas id="bgCanvas"></canvas>
+<canvas id="trailCanvas"></canvas>
+<div class="blob blob1"></div>
+<div class="blob blob2"></div>
+<div class="blob blob3"></div>
+
+<nav>
+  <div class="brand">RITIK<span class="dot">.</span>DEV</div>
+  <div class="navlinks">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <button id="navToggle">☰</button>
+</nav>
+
+<header>
+  <div class="scene-bg" style="--depth:26px">
+    <img src="assets/images/hero-bg.jpg" alt="" />
+  </div>
+  <div class="scene-overlay"></div>
+  <div class="hero-wrap">
+    <div class="hero-shell">
+      <div class="eyebrow">AVAILABLE FOR OPPORTUNITIES</div>
+      <h1 class="hero-title">RITIK<br/>KUMAR</h1>
+      <p class="hero-sub">Aspiring <b>Full-Stack Developer</b> crafting polished digital experiences — from interactive web apps to automation tools that feel intuitive and fast.</p>
+      <div class="hero-cta">
+        <a class="btn solid" href="#projects"><span>View Projects</span></a>
+        <a class="btn outline" href="#contact"><span>Get In Touch</span></a>
+      </div>
+      <div class="stack-chips">
+        <span class="chip">Python</span>
+        <span class="chip">JavaScript</span>
+        <span class="chip">HTML / CSS</span>
+        <span class="chip">MongoDB</span>
+        <span class="chip">Git & GitHub</span>
+      </div>
+      <div class="insight-grid">
+        <div class="insight-card">
+          <strong>3+</strong>
+          <small>hands-on builds shipped</small>
+        </div>
+        <div class="insight-card">
+          <strong>100%</strong>
+          <small>responsive by design</small>
+        </div>
+        <div class="insight-card">
+          <strong>24/7</strong>
+          <small>curiosity-driven learning</small>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-figure" id="heroFigure">
+      <div class="glow-ring" id="glowRing"></div>
+      <div class="badge-float b1">&lt;/&gt; clean code</div>
+      <div class="badge-float b2">100% responsive</div>
+      <div class="badge-float b3">✦ full-stack</div>
+      <div class="orbit-wrap">
+        <div class="orbit orbit1"><span class="star"></span></div>
+        <div class="orbit orbit2"><span class="star"></span></div>
+        <div class="orbit orbit3"><span class="star"></span></div>
+      </div>
+      <div class="char-stage">
+        <img class="char-img char-img-1" id="charImg1" src="assets/images/hero-character-1.png" alt="Character illustration, formal pose" />
+        <img class="char-img char-img-2" id="charImg2" src="assets/images/hero-character-2.png" alt="Character illustration, casual pose" />
+      </div>
+    </div>
+  </div>
+
+  <div class="scrolldown"><span>SCROLL</span><span class="line"></span></div>
+</header>
+
+<main>
+
+  <section id="about" class="reveal full-bg-section">
+    <div class="scene-bg" style="--depth:8px">
+      <img src="assets/images/about-bg.jpg" alt="" />
+    </div>
+    <div class="scene-overlay" style="background:linear-gradient(180deg, var(--bg) 0%, rgba(8,6,15,.88) 30%, rgba(8,6,15,.9) 70%, var(--bg) 100%);"></div>
+    <div class="sec-head">
+      <div class="sec-eyebrow">// About</div>
+      <h2 class="sec-title">Who's building this</h2>
+    </div>
+    <div class="about-grid">
+      <div class="glass reveal-left">
+        <p>I'm a Computer Science student at <strong>Lovely Professional University</strong>, based in Phagwara, Punjab, and I like turning ideas into things people can click, type into, and actually use. <strong>HTML, CSS, JavaScript and Python</strong> are my everyday tools, and I'm most interested in the full stack — where clean interfaces meet logic that actually works.</p>
+        <p>I learn fast, ship small projects end-to-end, and I'd rather debug something for two hours than leave it half-working. Currently looking for opportunities to build real products with a real team.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills" class="reveal full-bg-section">
+    <div class="scene-bg" style="--depth:12px">
+      <img src="assets/images/skills-bg.jpg" alt="" />
+    </div>
+    <div class="scene-overlay" style="background:linear-gradient(180deg, var(--bg) 0%, rgba(8,6,15,.82) 25%, rgba(8,6,15,.9) 75%, var(--bg) 100%);"></div>
+    <div class="sec-head">
+      <div class="sec-eyebrow">// Technical Skills</div>
+      <h2 class="sec-title">Full-Stack + AI Toolkit</h2>
+    </div>
+
+    <div class="tech-orbit-wrap reveal-scale">
+      <div class="orbit-ring-guide guide-a"></div>
+      <div class="orbit-ring-guide guide-b"></div>
+      <div class="orbit-ring-guide guide-c"></div>
+
+      <div class="tech-ring ring-a">
+          <div class="tech-node" style="transform:rotate(-90.00deg) translateX(118px) rotate(90.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/python" alt="" loading="lazy" onerror="this.style.display='none'"/>Python</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(-18.00deg) translateX(118px) rotate(18.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/javascript" alt="" loading="lazy" onerror="this.style.display='none'"/>JavaScript</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(54.00deg) translateX(118px) rotate(-54.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/typescript" alt="" loading="lazy" onerror="this.style.display='none'"/>TypeScript</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(126.00deg) translateX(118px) rotate(-126.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/react" alt="" loading="lazy" onerror="this.style.display='none'"/>React</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(198.00deg) translateX(118px) rotate(-198.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/nodedotjs" alt="" loading="lazy" onerror="this.style.display='none'"/>Node.js</span></div>
+          </div>
+      </div>
+      <div class="tech-ring ring-b">
+          <div class="tech-node" style="transform:rotate(-90.00deg) translateX(196px) rotate(90.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/nextdotjs/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Next.js</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(-30.00deg) translateX(196px) rotate(30.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/express/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Express.js</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(30.00deg) translateX(196px) rotate(-30.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/tailwindcss" alt="" loading="lazy" onerror="this.style.display='none'"/>Tailwind CSS</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(90.00deg) translateX(196px) rotate(-90.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/mongodb" alt="" loading="lazy" onerror="this.style.display='none'"/>MongoDB</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(150.00deg) translateX(196px) rotate(-150.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/postgresql" alt="" loading="lazy" onerror="this.style.display='none'"/>PostgreSQL</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(210.00deg) translateX(196px) rotate(-210.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/docker" alt="" loading="lazy" onerror="this.style.display='none'"/>Docker</span></div>
+          </div>
+      </div>
+      <div class="tech-ring ring-c">
+          <div class="tech-node" style="transform:rotate(-90.00deg) translateX(278px) rotate(90.00deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/tensorflow" alt="" loading="lazy" onerror="this.style.display='none'"/>TensorFlow</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(-38.57deg) translateX(278px) rotate(38.57deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/pytorch" alt="" loading="lazy" onerror="this.style.display='none'"/>PyTorch</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(12.86deg) translateX(278px) rotate(-12.86deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/openai/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>OpenAI API</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(64.29deg) translateX(278px) rotate(-64.29deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/langchain" alt="" loading="lazy" onerror="this.style.display='none'"/>LangChain</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(115.71deg) translateX(278px) rotate(-115.71deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/huggingface" alt="" loading="lazy" onerror="this.style.display='none'"/>Hugging Face</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(167.14deg) translateX(278px) rotate(-167.14deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/pandas/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Pandas</span></div>
+          </div>
+          <div class="tech-node" style="transform:rotate(218.57deg) translateX(278px) rotate(-218.57deg);">
+            <div class="tech-node-counter"><span class="tech-chip"><img class="chip-ico" src="https://cdn.simpleicons.org/github/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Git & GitHub</span></div>
+          </div>
+      </div>
+
+      <div class="tech-hub">
+        <span class="hub-line1">FULL-STACK</span>
+        <span class="hub-line2">+ AI</span>
+      </div>
+    </div>
+
+    <div class="core-prof-head">// Core proficiency</div>
+    <div class="skills-grid">
+      <div class="skill-card">
+        <div class="skill-top"><span>Python</span><span class="lvl">Core</span></div>
+        <div class="bar"><div class="bar-fill" data-w="88"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><span>JavaScript</span><span class="lvl">Core</span></div>
+        <div class="bar"><div class="bar-fill" data-w="82"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><span>HTML / CSS</span><span class="lvl">Strong</span></div>
+        <div class="bar"><div class="bar-fill" data-w="90"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><span>MongoDB</span><span class="lvl">Growing</span></div>
+        <div class="bar"><div class="bar-fill" data-w="65"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><span>Git &amp; GitHub</span><span class="lvl">Strong</span></div>
+        <div class="bar"><div class="bar-fill" data-w="80"></div></div>
+      </div>
+      <div class="skill-card">
+        <div class="skill-top"><span>AI / Prompt Engineering</span><span class="lvl">Growing</span></div>
+        <div class="bar"><div class="bar-fill" data-w="70"></div></div>
+      </div>
+    </div>
+
+    <div class="tech-cats-head">// Broader stack</div>
+    <div class="tech-cats-grid">
+      <div class="tech-cat-card reveal-left">
+        <h4>Languages</h4>
+        <div class="tech-cat-chips">
+          <span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/python" alt="" loading="lazy" onerror="this.style.display='none'"/>Python</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/javascript" alt="" loading="lazy" onerror="this.style.display='none'"/>JavaScript</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/typescript" alt="" loading="lazy" onerror="this.style.display='none'"/>TypeScript</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/c" alt="" loading="lazy" onerror="this.style.display='none'"/>C</span><span class="chip">SQL</span>
+        </div>
+      </div>
+      <div class="tech-cat-card reveal-scale">
+        <h4>Frontend</h4>
+        <div class="tech-cat-chips">
+          <span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/html5" alt="" loading="lazy" onerror="this.style.display='none'"/>HTML5</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/css3" alt="" loading="lazy" onerror="this.style.display='none'"/>CSS3</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/react" alt="" loading="lazy" onerror="this.style.display='none'"/>React.js</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/nextdotjs/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Next.js</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/tailwindcss" alt="" loading="lazy" onerror="this.style.display='none'"/>Tailwind CSS</span>
+        </div>
+      </div>
+      <div class="tech-cat-card reveal-right">
+        <h4>Backend &amp; APIs</h4>
+        <div class="tech-cat-chips">
+          <span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/nodedotjs" alt="" loading="lazy" onerror="this.style.display='none'"/>Node.js</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/express/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Express.js</span><span class="chip">REST APIs</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/fastapi" alt="" loading="lazy" onerror="this.style.display='none'"/>FastAPI</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/flask/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Flask</span>
+        </div>
+      </div>
+      <div class="tech-cat-card reveal-left">
+        <h4>AI / Machine Learning</h4>
+        <div class="tech-cat-chips">
+          <span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/tensorflow" alt="" loading="lazy" onerror="this.style.display='none'"/>TensorFlow</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/pytorch" alt="" loading="lazy" onerror="this.style.display='none'"/>PyTorch</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/scikitlearn" alt="" loading="lazy" onerror="this.style.display='none'"/>Scikit-learn</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/openai/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>OpenAI API</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/langchain" alt="" loading="lazy" onerror="this.style.display='none'"/>LangChain</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/huggingface" alt="" loading="lazy" onerror="this.style.display='none'"/>Hugging Face</span><span class="chip">Prompt Engineering</span>
+        </div>
+      </div>
+      <div class="tech-cat-card reveal-scale">
+        <h4>Databases &amp; Cloud</h4>
+        <div class="tech-cat-chips">
+          <span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/mongodb" alt="" loading="lazy" onerror="this.style.display='none'"/>MongoDB</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/postgresql" alt="" loading="lazy" onerror="this.style.display='none'"/>PostgreSQL</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/mysql" alt="" loading="lazy" onerror="this.style.display='none'"/>MySQL</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/redis" alt="" loading="lazy" onerror="this.style.display='none'"/>Redis</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/vercel/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Vercel</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/firebase" alt="" loading="lazy" onerror="this.style.display='none'"/>Firebase</span>
+        </div>
+      </div>
+      <div class="tech-cat-card reveal-right">
+        <h4>Tools &amp; DevOps</h4>
+        <div class="tech-cat-chips">
+          <span class="chip">Git &amp; GitHub</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/docker" alt="" loading="lazy" onerror="this.style.display='none'"/>Docker</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/postman" alt="" loading="lazy" onerror="this.style.display='none'"/>Postman</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/linux/ffffff" alt="" loading="lazy" onerror="this.style.display='none'"/>Linux</span><span class="chip"><img class="chip-ico" src="https://cdn.simpleicons.org/visualstudiocode" alt="" loading="lazy" onerror="this.style.display='none'"/>VS Code</span><span class="chip">CI/CD Basics</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="soft-row">
+      <span class="chip">Teamwork</span>
+      <span class="chip">Communication</span>
+      <span class="chip">Creativity</span>
+      <span class="chip">Time Management</span>
+    </div>
+  </section>
+
+
+  <section id="projects" class="reveal full-bg-section">
+    <div class="scene-bg" style="--depth:16px">
+      <img src="assets/images/projects-bg.jpg" alt="" />
+    </div>
+    <div class="scene-overlay" style="background:linear-gradient(180deg, var(--bg) 0%, rgba(8,6,15,.82) 25%, rgba(8,6,15,.9) 75%, var(--bg) 100%);"></div>
+    <div class="sec-head">
+      <div class="sec-eyebrow reveal-scale">// Projects</div>
+      <h2 class="sec-title reveal-scale">Things I've built</h2>
+    </div>
+    <div class="showcase-grid">
+      <div class="showcase-card">
+        <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=1200&q=80" alt="Dark anime style scene" />
+        <div class="showcase-meta">
+          <span>Visual energy</span>
+          <h3>Immersive scenes</h3>
+        </div>
+      </div>
+      <div class="showcase-card">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80" alt="Golden moon anime art" />
+        <div class="showcase-meta">
+          <span>Bold concept</span>
+          <h3>Strong storytelling</h3>
+        </div>
+      </div>
+      <div class="showcase-card">
+        <img src="https://images.unsplash.com/photo-1478145046317-39f10e56b5e9?auto=format&fit=crop&w=1200&q=80" alt="Purple butterfly character" />
+        <div class="showcase-meta">
+          <span>Subtle glow</span>
+          <h3>Elegant atmosphere</h3>
+        </div>
+      </div>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card">
+        <span class="proj-tag">HTML · CSS</span>
+        <h3 class="proj-title">Restaurant Menu Project</h3>
+        <ul>
+          <li>Fully responsive, visually polished menu site built with only HTML and CSS.</li>
+          <li>Clean, well-organized sections for smooth reading and easy navigation.</li>
+          <li>Every UI component styled from scratch, cross-browser tested.</li>
+        </ul>
+      </div>
+      <div class="proj-card">
+        <span class="proj-tag">JavaScript</span>
+        <h3 class="proj-title">Calculator</h3>
+        <ul>
+          <li>Fully responsive, interactive calculator built end-to-end.</li>
+          <li>Core arithmetic in clean, efficient JavaScript logic.</li>
+          <li>Tested across many input scenarios for accuracy.</li>
+        </ul>
+      </div>
+      <div class="proj-card">
+        <span class="proj-tag">Python · MongoDB</span>
+        <h3 class="proj-title">Telegram Movie Bot</h3>
+        <ul>
+          <li>Fetches movie data, gives quick rating-based suggestions.</li>
+          <li>Trending and search features with posters and details.</li>
+          <li>MongoDB backing store for history and fast caching.</li>
+        </ul>
+        <div class="proj-outcome">→ efficient, engaging movie discovery</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="education" class="reveal edu-section">
+    <div class="scene-bg" style="--depth:10px">
+      <img src="assets/images/education-gojo-bg.jpg" alt="" />
+    </div>
+    <div class="scene-overlay" style="background:linear-gradient(180deg, var(--bg) 0%, rgba(8,10,20,.74) 22%, rgba(8,10,20,.86) 78%, var(--bg) 100%);"></div>
+    <div class="sec-head">
+      <div class="sec-eyebrow reveal-scale">// Background</div>
+      <h2 class="sec-title reveal-scale">Education & beyond</h2>
+    </div>
+    <div class="grid3">
+      <div class="info-card">
+        <h3>Education</h3>
+        <p>Lovely Professional University</p>
+        <p class="muted">B.Tech, Computer Science</p>
+        <p class="muted">08/2025 – Present · Phagwara, Punjab</p>
+      </div>
+      <div class="info-card">
+        <h3>Languages</h3>
+        <p>Hindi</p>
+        <p>English</p>
+      </div>
+      <div class="info-card">
+        <h3>Interests</h3>
+        <p>Coding & Gaming</p>
+        <p>Music & Travelling</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="reveal full-bg-section">
+    <div class="scene-bg" style="--depth:14px">
+      <img src="assets/images/contact-bg.jpg" alt="" />
+    </div>
+    <div class="scene-overlay" style="background:linear-gradient(180deg, var(--bg) 0%, rgba(8,6,15,.8) 25%, rgba(8,6,15,.88) 75%, var(--bg) 100%);"></div>
+    <div class="sec-head">
+      <div class="sec-eyebrow reveal-scale">// Contact</div>
+      <h2 class="sec-title reveal-scale">Let's build something</h2>
+    </div>
+    <div class="contact-wrap">
+      <div class="contact-card reveal-left">
+        <div class="sec-eyebrow">// Contact</div>
+        <h3 class="proj-title" style="margin-bottom:8px;">Let’s create something memorable</h3>
+        <p style="color:var(--muted); font-size:15px; max-width:52ch;">Open to internships, junior full-stack roles, and interesting side projects. If you want a polished web experience, I’m ready to build it.</p>
+        <form class="contact-form" id="contactForm">
+          <div class="field">
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+          </div>
+          <div class="field">
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="Tell me about your idea..."></textarea>
+          </div>
+          <button class="submit-btn" type="submit">Send Message</button>
+        </form>
+        <div class="contact-globe-row">
+          <div class="contact-globe" aria-hidden="true">
+            <div class="globe-sphere"></div>
+            <div class="globe-ring"></div>
+            <div class="globe-pin"></div>
+          </div>
+          <div class="contact-locate">
+            <span class="locate-label">// Based in</span>
+            <span class="locate-value">Phagwara, Punjab, India</span>
+          </div>
+        </div>
+        <div class="contact-links">
+          <a class="clink" href="mailto:rkritiksah750@gmail.com">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+            rkritiksah750@gmail.com
+          </a>
+        </div>
+        <div class="social-row">
+          <a class="social-icon" href="#" target="_blank" rel="noopener" aria-label="GitHub">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.51 10.51 0 0023.5 12c0-6.27-5.23-11.5-11.5-11.5z"/></svg>
+          </a>
+          <a class="social-icon" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 11.02-4.12 2.06 2.06 0 01-.02 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+          </a>
+          <a class="social-icon" href="mailto:rkritiksah750@gmail.com" aria-label="Email">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="contact-figure reveal-right">
+        <img src="assets/images/contact-figure.png" alt="Character illustration" />
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div id="buddy">
+  <div class="buddy-bubble" id="buddyBubble">Scroll on, I'll keep you company ✨</div>
+  <div id="buddyImgWrap"><img src="assets/images/buddy-companion.png" alt="Companion" /></div>
+</div>
+
+<div class="toast" id="toast">Thanks! I’ll get back soon.</div>
+
+<footer>© 2026 Ritik Kumar — built with curiosity, coffee & a bit of anime energy.</footer>
+
+<script src="assets/js/main.js"></script>
+
+</body>
+</html>
