@@ -1,4 +1,4 @@
-[README.md](https://github.com/user-attachments/files/29934814/README.md)
+
 # Ritik Kumar — Portfolio
 
 Personal developer portfolio for Ritik Kumar — Full-Stack Developer specializing in AI.
