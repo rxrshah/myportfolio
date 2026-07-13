@@ -149,7 +149,8 @@
     }
     const intro = document.getElementById('introScreen');
     const tagline = document.getElementById('introTagline');
-    const bootLines = ['INITIALIZING...', 'LOADING ASSETS...', 'CONNECTING...', 'RENDERING SCENE...', 'SYSTEM ONLINE...', 'Welcome, Ritik.'];
+    const percentEl = document.getElementById('introPercent');
+    const bootLines = ['INITIALIZING...', 'LOADING ASSETS...', 'CONNECTING...', 'AI SCAN...', 'RENDERING SCENE...', 'SYSTEM ONLINE...', 'Welcome, Ritik.'];
     const finishIntro = ()=>{
       document.documentElement.classList.remove('intro-lock');
       if(intro){
@@ -168,8 +169,18 @@
           setTimeout(()=>{
             tagline.style.opacity = 0;
             setTimeout(()=>{ tagline.textContent = line; tagline.style.opacity = 1; }, 180);
-          }, i*480);
+          }, i*420);
         });
+      }
+      if(percentEl){
+        const pctStart = performance.now();
+        const pctDuration = 2900;
+        function pctTick(now){
+          const p = Math.min(1, (now - pctStart) / pctDuration);
+          percentEl.textContent = Math.round(p*100) + '%';
+          if(p < 1) requestAnimationFrame(pctTick);
+        }
+        requestAnimationFrame(pctTick);
       }
       setTimeout(finishIntro, 3100);
     }
@@ -306,7 +317,7 @@
   // ---- card physics: 3D tilt + glass glare ----
   if(!reduceMotion && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
     const tiltEls = document.querySelectorAll(
-      '.skill-card, .proj-card, .tech-cat-card, .info-card, .contact-card, .stat-card, .showcase-card, .insight-card'
+      '.skill-card, .proj-card, .tech-cat-card, .info-card, .contact-card, .stat-card, .insight-card'
     );
     tiltEls.forEach(card=>{
       card.classList.add('tilt-card');
@@ -435,14 +446,56 @@
 
   const contactForm = document.getElementById('contactForm');
   const toast = document.getElementById('toast');
+  const formError = document.getElementById('formError');
   if(contactForm && toast){
     contactForm.addEventListener('submit', (e)=>{
       e.preventDefault();
+      const submitBtn = contactForm.querySelector('.submit-btn');
       const name = contactForm.querySelector('[name="name"]').value.trim();
-      toast.textContent = name ? `Thanks, ${name}! I’ll get back soon.` : 'Thanks! I’ll get back soon.';
-      toast.classList.add('show');
-      contactForm.reset();
-      setTimeout(()=>toast.classList.remove('show'), 2600);
+      const endpoint = contactForm.getAttribute('action');
+      if(formError) formError.classList.remove('show');
+
+      // Guard: endpoint not configured yet — fall back to opening the email client
+      if(!endpoint || endpoint.includes('YOUR_FORM_ID')){
+        const email = contactForm.querySelector('[name="email"]').value.trim();
+        const message = contactForm.querySelector('[name="message"]').value.trim();
+        const subject = encodeURIComponent(`Portfolio contact from ${name || 'someone'}`);
+        const body = encodeURIComponent(`${message}\n\n— ${name} (${email})`);
+        window.location.href = `mailto:rkritiksah750@gmail.com?subject=${subject}&body=${body}`;
+        toast.textContent = 'Opening your email app to send this…';
+        toast.classList.add('show');
+        setTimeout(()=>toast.classList.remove('show'), 3200);
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.classList.add('sending');
+      const originalLabel = submitBtn.textContent;
+      submitBtn.textContent = 'Sending';
+
+      fetch(endpoint, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(res => {
+        if(res.ok){
+          toast.textContent = name ? `Thanks, ${name}! I'll get back soon.` : "Thanks! I'll get back soon.";
+          toast.classList.add('show');
+          contactForm.reset();
+          setTimeout(()=>toast.classList.remove('show'), 2800);
+        } else {
+          throw new Error('Form submission failed');
+        }
+      })
+      .catch(()=>{
+        if(formError) formError.classList.add('show');
+      })
+      .finally(()=>{
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('sending');
+        submitBtn.textContent = originalLabel;
+      });
     });
   }
 
@@ -462,33 +515,52 @@
     });
   }
 
-  // ---- animated stat counters ----
+  // ---- stat counters: real DOM counts + live GitHub API ----
   (function(){
     const nums = document.querySelectorAll('.stat-num');
     if(!nums.length) return;
-    function formatVal(n, compact){
-      if(compact && n >= 1000){ return Math.round(n/1000) + 'K'; }
-      return n.toLocaleString('en-US');
-    }
-    function animateCounter(el){
-      const target = parseFloat(el.dataset.target || '0');
-      const suffix = el.dataset.suffix || '';
-      const compact = el.dataset.compact === 'true';
-      const duration = reduceMotion ? 0 : 1400;
+
+    function animateTo(el, target, suffix){
+      const duration = reduceMotion ? 0 : 1200;
       const start = performance.now();
       function tick(now){
         const p = duration ? Math.min(1, (now - start) / duration) : 1;
         const eased = 1 - Math.pow(1 - p, 3);
-        const val = Math.round(target * eased);
-        el.textContent = formatVal(val, compact) + (p >= 1 ? suffix : '');
+        el.textContent = Math.round(target * eased) + (p >= 1 ? suffix : '');
         if(p < 1) requestAnimationFrame(tick);
       }
       requestAnimationFrame(tick);
     }
+
+    function resolveEl(el){
+      // real DOM count (e.g. actual number of .proj-card on the page)
+      if(el.dataset.countSelector){
+        const count = document.querySelectorAll(el.dataset.countSelector).length;
+        animateTo(el, count, el.dataset.suffix || '');
+        return;
+      }
+      // live value fetched from GitHub's public API
+      if(el.dataset.github){
+        fetch('https://api.github.com/users/rxrshah')
+          .then(r => r.ok ? r.json() : Promise.reject(r.status))
+          .then(data => {
+            const val = data[el.dataset.github];
+            if(typeof val === 'number') animateTo(el, val, el.dataset.suffix || '');
+            else el.textContent = '—';
+          })
+          .catch(()=>{ el.textContent = '—'; }); // graceful fallback, no fake number shown
+        return;
+      }
+      // static, honestly-labelled value
+      if(el.dataset.target){
+        animateTo(el, parseFloat(el.dataset.target), el.dataset.suffix || '');
+      }
+    }
+
     const statObserver = new IntersectionObserver((entries)=>{
       entries.forEach(e=>{
         if(e.isIntersecting){
-          animateCounter(e.target);
+          resolveEl(e.target);
           statObserver.unobserve(e.target);
         }
       });
