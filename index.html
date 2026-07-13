@@ -20,6 +20,7 @@
     <h1 class="intro-name" id="introName">Ritik Kumar</h1>
     <p class="intro-tagline" id="introTagline">INITIALIZING...</p>
     <div class="intro-bar"><div class="intro-bar-fill"></div></div>
+    <p class="intro-percent" id="introPercent">0%</p>
   </div>
   <div class="intro-scanlines"></div>
 </div>
@@ -65,6 +66,7 @@
       <div class="hero-cta">
         <a class="btn solid" href="#projects"><span>View Projects</span></a>
         <a class="btn outline" href="#contact"><span>Get In Touch</span></a>
+        <a class="btn resume" href="assets/Ritik-Kumar-Resume.pdf" download="Ritik-Kumar-Resume.pdf"><span>⬇ Download Resume</span></a>
       </div>
       <div class="stack-chips">
         <span class="chip">Python</span>
@@ -114,26 +116,23 @@
   <section id="stats" class="reveal stats-section">
     <div class="stats-grid">
       <div class="stat-card">
-        <strong class="stat-num" data-target="15" data-suffix="">0</strong>
-        <small>Projects Built</small>
+        <strong class="stat-num" id="statProjects" data-count-selector=".proj-card" data-suffix="">0</strong>
+        <small>Projects Shipped</small>
       </div>
       <div class="stat-card">
-        <strong class="stat-num" data-target="2400" data-suffix="+">0</strong>
-        <small>GitHub Commits</small>
+        <strong class="stat-num" id="statTech" data-count-selector="#skills .tech-chip, #skills .tech-cat-chips .chip" data-suffix="">0</strong>
+        <small>Tech &amp; Tools</small>
       </div>
       <div class="stat-card">
-        <strong class="stat-num" data-target="80000" data-suffix="+" data-compact="true">0</strong>
-        <small>Bot Users</small>
+        <strong class="stat-num" id="statRepos" data-github="public_repos" data-suffix="">—</strong>
+        <small>Public GitHub Repos</small>
       </div>
       <div class="stat-card">
-        <strong class="stat-num" data-target="10" data-suffix="M+">0</strong>
-        <small>API Requests</small>
-      </div>
-      <div class="stat-card">
-        <strong class="stat-num" data-target="2" data-suffix=" Yrs">0</strong>
-        <small>Experience</small>
+        <strong class="stat-num" data-target="2" data-suffix="+ Yrs">0</strong>
+        <small>Coding Since 2023</small>
       </div>
     </div>
+    <p class="stats-note mono">live counts — repos pulled straight from the GitHub API</p>
   </section>
 
   <section id="about" class="reveal full-bg-section">
@@ -371,57 +370,62 @@
       <div class="sec-eyebrow reveal-scale">// Projects</div>
       <h2 class="sec-title reveal-scale">Things I've built</h2>
     </div>
-    <div class="showcase-grid">
-      <div class="showcase-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcReRz2w67hMGfX1MsjAaPqi5ozoUrtMK2iZS72yLcnZKw&s=10?auto=format&fit=crop&w=1200&q=80" alt="Dark anime style scene" />
-        <div class="showcase-meta">
-          <span>Visual energy</span>
-          <h3>Immersive scenes</h3>
-        </div>
-      </div>
-      <div class="showcase-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIipfFSHC2Wb0te31kcuKNPv_Lt5UWryDI-Qx_uqUQ0g&s=10?auto=format&fit=crop&w=1200&q=80" alt="Golden moon anime art" />
-        <div class="showcase-meta">
-          <span>Bold concept</span>
-          <h3>Strong storytelling</h3>
-        </div>
-      </div>
-      <div class="showcase-card">
-        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQpOEttKx5pHN9_WFgr41vX-UR_kNgqNz8HMTPWEWtbh0p4i2WefROhiFKp&s=10?auto=format&fit=crop&w=1200&q=80" alt="Purple butterfly character" />
-        <div class="showcase-meta">
-          <span>Subtle glow</span>
-          <h3>Elegant atmosphere</h3>
-        </div>
-      </div>
-    </div>
     <div class="proj-grid">
       <div class="proj-card">
         <span class="proj-tag">HTML · CSS</span>
         <h3 class="proj-title">Restaurant Menu Project</h3>
+        <div class="proj-stack">
+          <span class="stack-pill">HTML5</span><span class="stack-pill">CSS3</span><span class="stack-pill">Responsive Design</span>
+        </div>
         <ul>
           <li>Fully responsive, visually polished menu site built with only HTML and CSS.</li>
           <li>Clean, well-organized sections for smooth reading and easy navigation.</li>
           <li>Every UI component styled from scratch, cross-browser tested.</li>
         </ul>
+        <div class="proj-arch"><strong>Architecture:</strong> Static site — semantic HTML structure, pure CSS styling, no build step or backend.</div>
+        <div class="proj-actions">
+          <a class="proj-btn live" href="https://rxrshah.github.io/RestaurantMenuProject/" target="_blank" rel="noopener">▶ Live Demo</a>
+          <a class="proj-btn code" href="https://github.com/rxrshah/RestaurantMenuProject" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.51 10.51 0 0023.5 12c0-6.27-5.23-11.5-11.5-11.5z"/></svg>
+            GitHub
+          </a>
+        </div>
       </div>
       <div class="proj-card">
         <span class="proj-tag">JavaScript</span>
         <h3 class="proj-title">Calculator</h3>
+        <div class="proj-stack">
+          <span class="stack-pill">JavaScript</span><span class="stack-pill">HTML5</span><span class="stack-pill">CSS3</span>
+        </div>
         <ul>
           <li>Fully responsive, interactive calculator built end-to-end.</li>
           <li>Core arithmetic in clean, efficient JavaScript logic.</li>
           <li>Tested across many input scenarios for accuracy.</li>
         </ul>
+        <div class="proj-arch"><strong>Architecture:</strong> Vanilla JS state machine driving the DOM directly — no framework, no dependencies.</div>
+        <div class="proj-actions">
+          <a class="proj-btn code" href="https://github.com/rxrshah/Simple-Calculator" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor" width="15" height="15"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.51 10.51 0 0023.5 12c0-6.27-5.23-11.5-11.5-11.5z"/></svg>
+            GitHub
+          </a>
+        </div>
       </div>
       <div class="proj-card">
         <span class="proj-tag">Python · MongoDB</span>
         <h3 class="proj-title">Telegram Movie Bot</h3>
+        <div class="proj-stack">
+          <span class="stack-pill">Python</span><span class="stack-pill">Pyrogram</span><span class="stack-pill">MongoDB</span>
+        </div>
         <ul>
           <li>Fetches movie data, gives quick rating-based suggestions.</li>
           <li>Trending and search features with posters and details.</li>
           <li>MongoDB backing store for history and fast caching.</li>
         </ul>
+        <div class="proj-arch"><strong>Architecture:</strong> Pyrogram bot service + MongoDB (Motor async driver) for storage.</div>
         <div class="proj-outcome">→ efficient, engaging movie discovery</div>
+        <div class="proj-actions">
+          <span class="proj-btn locked" title="Private repository">🔒 Private Repo</span>
+        </div>
       </div>
     </div>
   </section>
@@ -469,7 +473,7 @@
         <div class="sec-eyebrow">// Contact</div>
         <h3 class="proj-title" style="margin-bottom:8px;">Let’s create something memorable</h3>
         <p style="color:var(--muted); font-size:15px; max-width:52ch;">Open to internships, junior full-stack roles, and interesting side projects. If you want a polished web experience, I’m ready to build it.</p>
-        <form class="contact-form" id="contactForm">
+        <form class="contact-form" id="contactForm" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
           <div class="field">
             <label for="name">Name</label>
             <input id="name" name="name" type="text" placeholder="Your name" required>
@@ -480,9 +484,11 @@
           </div>
           <div class="field">
             <label for="message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell me about your idea..."></textarea>
+            <textarea id="message" name="message" placeholder="Tell me about your idea..." required></textarea>
           </div>
+          <input class="hp-field" type="text" name="_gotcha" tabindex="-1" autocomplete="off" aria-hidden="true">
           <button class="submit-btn" type="submit">Send Message</button>
+          <p class="field-error" id="formError">Something went wrong — try again, or email me directly below.</p>
         </form>
         <div class="contact-globe-row">
           <div class="contact-globe" aria-hidden="true">
@@ -502,10 +508,10 @@
           </a>
         </div>
         <div class="social-row">
-          <a class="social-icon" href="#" target="_blank" rel="noopener" aria-label="GitHub">
+          <a class="social-icon" href="https://github.com/rxrshah" target="_blank" rel="noopener" aria-label="GitHub">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 .5C5.73.5.5 5.73.5 12c0 5.08 3.29 9.39 7.86 10.91.57.1.78-.25.78-.55v-2.15c-3.2.7-3.88-1.36-3.88-1.36-.52-1.33-1.28-1.68-1.28-1.68-1.05-.72.08-.71.08-.71 1.16.08 1.77 1.19 1.77 1.19 1.03 1.77 2.7 1.26 3.36.96.1-.75.4-1.26.73-1.55-2.55-.29-5.24-1.28-5.24-5.7 0-1.26.45-2.29 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.18 1.18a11.1 11.1 0 015.8 0c2.2-1.49 3.17-1.18 3.17-1.18.64 1.59.24 2.76.12 3.05.74.8 1.19 1.83 1.19 3.09 0 4.43-2.7 5.4-5.27 5.69.42.36.78 1.07.78 2.16v3.2c0 .3.21.66.79.55A10.51 10.51 0 0023.5 12c0-6.27-5.23-11.5-11.5-11.5z"/></svg>
           </a>
-          <a class="social-icon" href="#" target="_blank" rel="noopener" aria-label="LinkedIn">
+          <a class="social-icon" href="https://www.linkedin.com/in/ritik-kumar" target="_blank" rel="noopener" aria-label="LinkedIn">
             <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.15 1.45-2.15 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.6 0 4.27 2.37 4.27 5.45v6.29zM5.34 7.43a2.06 2.06 0 11.02-4.12 2.06 2.06 0 01-.02 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
           </a>
           <a class="social-icon" href="mailto:rkritiksah750@gmail.com" aria-label="Email">
