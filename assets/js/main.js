@@ -250,6 +250,7 @@
 
   if(window.Lenis && !reduceMotion){
     const lenis = new Lenis({ duration: 1.05, smoothWheel: true });
+    window.__lenis = lenis;
     function raf(time){ lenis.raf(time); requestAnimationFrame(raf); }
     requestAnimationFrame(raf);
     if(hasGsap){
@@ -389,10 +390,21 @@
     });
   }
 
+  // ---- spotlight cards: cursor-follow glow (Linear/Stripe-style) ----
+  if(window.matchMedia('(hover:hover) and (pointer:fine)').matches){
+    document.querySelectorAll('.spotlight-card').forEach(card=>{
+      card.addEventListener('mousemove', (e)=>{
+        const rect = card.getBoundingClientRect();
+        card.style.setProperty('--sx', `${e.clientX - rect.left}px`);
+        card.style.setProperty('--sy', `${e.clientY - rect.top}px`);
+      });
+    });
+  }
+
   // ---- card physics: 3D tilt + glass glare ----
   if(!reduceMotion && window.matchMedia('(hover:hover) and (pointer:fine)').matches){
     const tiltEls = document.querySelectorAll(
-      '.skill-card, .proj-card, .tech-cat-card, .info-card, .contact-card, .stat-card, .insight-card'
+      '.skill-card, .proj-card, .tech-cat-card, .info-card, .contact-card, .insight-card'
     );
     tiltEls.forEach(card=>{
       card.classList.add('tilt-card');
@@ -504,6 +516,44 @@
       }
     });
   });
+
+  // ---- smooth in-page navigation (premium page-transition feel) ----
+  function smoothNavTo(hash){
+    const target = document.querySelector(hash);
+    if(!target) return;
+    if(window.__lenis){
+      window.__lenis.scrollTo(target, { offset:-70, duration:1.15 });
+    } else {
+      target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block:'start' });
+    }
+    // brief landing glow on arrival — a small, tasteful "page transition" cue
+    const head = target.querySelector('.sec-title') || target;
+    head.classList.remove('landing-pulse');
+    void head.offsetWidth; // restart animation
+    head.classList.add('landing-pulse');
+  }
+  document.querySelectorAll('a[href^="#"]').forEach(link=>{
+    const hash = link.getAttribute('href');
+    if(!hash || hash === '#' || hash.length < 2) return;
+    link.addEventListener('click', (e)=>{
+      if(document.querySelector(hash)){
+        e.preventDefault();
+        smoothNavTo(hash);
+      }
+    });
+  });
+
+  // ---- floating back-to-top ----
+  const floatTop = document.getElementById('floatTop');
+  if(floatTop){
+    window.addEventListener('scroll', ()=>{
+      floatTop.classList.toggle('show', window.scrollY > 700);
+    }, { passive:true });
+    floatTop.addEventListener('click', ()=>{
+      if(window.__lenis) window.__lenis.scrollTo(0, { duration:1.1 });
+      else window.scrollTo({ top:0, behavior: reduceMotion ? 'auto' : 'smooth' });
+    });
+  }
 
   // ---- active section highlight + small contact toast ----
   const navAnchors = [...document.querySelectorAll('.navlinks a')];
