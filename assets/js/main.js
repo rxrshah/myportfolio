@@ -186,6 +186,15 @@
     }
   })();
 
+  // ---- nav shrink/morph on scroll ----
+  const navEl = document.querySelector('nav');
+  function updateNavMorph(){
+    if(!navEl) return;
+    navEl.classList.toggle('nav-scrolled', window.scrollY > 40);
+  }
+  window.addEventListener('scroll', updateNavMorph, { passive:true });
+  updateNavMorph();
+
   // ---- hero crossfade on scroll + mouse parallax ----
   const heroFigure = document.getElementById('heroFigure');
   const charImg2 = document.getElementById('charImg2');
@@ -289,6 +298,38 @@
         width: bar.dataset.w + '%', duration:1.2, ease:'power2.out',
         scrollTrigger:{ trigger: bar, start:'top 92%', once:true }
       });
+    });
+
+    // ---- cinematic scroll-story: layers move at different speeds as you scroll ----
+    // background photography per section drifts opposite to scroll, scaled by --depth
+    // (canvas particle field + glow blobs are left completely untouched)
+    gsap.utils.toArray('.scene-bg').forEach(bg=>{
+      if(bg.closest('.edu-section')) return; // this section's bg has no vertical bleed margin — skip to avoid gaps
+      const depth = parseFloat(getComputedStyle(bg).getPropertyValue('--depth')) || 10;
+      const shift = Math.min(46, Math.max(18, depth * 1.3));
+      const host = bg.closest('header, section') || bg.parentElement;
+      gsap.fromTo(bg, { '--sy': `-${shift}px` }, {
+        '--sy': `${shift}px`, ease:'none',
+        scrollTrigger:{ trigger: host, start:'top bottom', end:'bottom top', scrub:0.6 }
+      });
+    });
+
+    // section eyebrow / title drift at slightly different speeds from each other
+    gsap.utils.toArray('.sec-head').forEach(head=>{
+      const eyebrow = head.querySelector('.sec-eyebrow');
+      const title = head.querySelector('.sec-title');
+      if(eyebrow){
+        gsap.fromTo(eyebrow, { y:26 }, {
+          y:-26, ease:'none',
+          scrollTrigger:{ trigger: head, start:'top bottom', end:'bottom top', scrub:0.6 }
+        });
+      }
+      if(title){
+        gsap.fromTo(title, { y:14 }, {
+          y:-14, ease:'none',
+          scrollTrigger:{ trigger: head, start:'top bottom', end:'bottom top', scrub:0.9 }
+        });
+      }
     });
   }
 
