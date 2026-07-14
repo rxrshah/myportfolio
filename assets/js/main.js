@@ -331,6 +331,40 @@
         });
       }
     });
+
+    // ---- horizontal pinned scroll: vertical scroll drives sideways motion,
+    // then normal vertical scroll resumes automatically once the track ends ----
+    const strengthsTrack = document.getElementById('strengthsTrack');
+    const hscrollSection = document.querySelector('.hscroll-section');
+    if(strengthsTrack && hscrollSection && window.matchMedia('(min-width:900px)').matches){
+      const viewport = strengthsTrack.parentElement;
+      gsap.to(strengthsTrack, {
+        x: () => -(strengthsTrack.scrollWidth - viewport.clientWidth),
+        ease:'none',
+        scrollTrigger:{
+          trigger: hscrollSection,
+          start:'top top',
+          end: () => '+=' + Math.max(300, strengthsTrack.scrollWidth - viewport.clientWidth),
+          scrub:0.8,
+          pin:true,
+          anticipatePin:1,
+          invalidateOnRefresh:true
+        }
+      });
+    }
+
+    // ---- scroll-driven zoom on section background photography (replaces the
+    // passive kenburns loop with an active zoom tied to scroll, per section) ----
+    gsap.utils.toArray('.scene-bg img').forEach(img=>{
+      img.style.animation = 'none';
+      gsap.fromTo(img, { scale:1.05 }, {
+        scale:1.22, ease:'none',
+        scrollTrigger:{
+          trigger: img.closest('header, section') || img.parentElement,
+          start:'top bottom', end:'bottom top', scrub:0.8
+        }
+      });
+    });
   }
 
   // ---- scroll reveal (fallback for browsers without GSAP/network) ----
@@ -609,28 +643,6 @@
     nums.forEach(el=> statObserver.observe(el));
   })();
 
-  // ---- theme switcher (Dark → Cyberpunk → Matrix → Purple Neon) ----
-  (function(){
-    const btn = document.getElementById('themeToggle');
-    if(!btn) return;
-    const themes = ['dark', 'cyberpunk', 'matrix', 'purple-neon'];
-    const labels = { dark:'◐ THEME', cyberpunk:'◈ CYBER', matrix:'▣ MATRIX', 'purple-neon':'◆ NEON' };
-    let saved = 'dark';
-    try{ saved = localStorage.getItem('ritik-theme') || 'dark'; }catch(e){}
-    function applyTheme(t){
-      if(t === 'dark'){ document.documentElement.removeAttribute('data-theme'); }
-      else{ document.documentElement.setAttribute('data-theme', t); }
-      btn.textContent = labels[t];
-      try{ localStorage.setItem('ritik-theme', t); }catch(e){}
-    }
-    applyTheme(saved);
-    btn.addEventListener('click', ()=>{
-      const current = document.documentElement.getAttribute('data-theme') || 'dark';
-      const next = themes[(themes.indexOf(current) + 1) % themes.length];
-      applyTheme(next);
-    });
-  })();
-
   // ---- easter eggs: typed keywords + Konami code ----
   (function(){
     const overlay = document.getElementById('eggOverlay');
@@ -677,12 +689,8 @@
           typedBuffer = '';
         } else if(typedBuffer.endsWith('solo')){
           showEgg('🗡 Solo Leveling Mode');
-          const prev = document.documentElement.getAttribute('data-theme');
-          document.documentElement.setAttribute('data-theme', 'purple-neon');
-          setTimeout(()=>{
-            if(prev) document.documentElement.setAttribute('data-theme', prev);
-            else document.documentElement.removeAttribute('data-theme');
-          }, 4500);
+          document.body.classList.add('shadow-mode');
+          setTimeout(()=> document.body.classList.remove('shadow-mode'), 4500);
           typedBuffer = '';
         }
       }
