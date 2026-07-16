@@ -189,7 +189,7 @@
   .navlinks{ display:flex; gap:34px; }
   .navlinks a{
     position:relative; color:var(--muted); font-size:14px; font-weight:500; padding:4px 0;
-    transition:color .25s;
+    transition:color .25s, transform .25s cubic-bezier(.2,.8,.3,1);
   }
   .navlinks a::after{
     content:''; position:absolute; left:0; bottom:-4px; width:0; height:2px;
@@ -651,16 +651,6 @@
     mix-blend-mode:overlay;
   }
   #introTagline{ transition:opacity .18s ease; }
-  #introScreen.intro-glitch{ animation:introGlitchFlash .35s steps(2) 2; }
-  #introScreen.intro-glitch .intro-content{ animation:introGlitchShift .35s steps(2) 2; }
-  @keyframes introGlitchFlash{
-    0%{ filter:none; } 30%{ filter:hue-rotate(90deg) saturate(3) brightness(1.4); }
-    60%{ filter:hue-rotate(-60deg) saturate(2) brightness(.8); } 100%{ filter:none; }
-  }
-  @keyframes introGlitchShift{
-    0%{ transform:translate(0,0); } 25%{ transform:translate(-3px,2px); }
-    50%{ transform:translate(3px,-2px); } 75%{ transform:translate(-2px,-1px); } 100%{ transform:translate(0,0); }
-  }
 
   /* ===== bento grid (premium SaaS-style asymmetric grid) ===== */
   .stats-section{ padding:60px clamp(20px,5vw,60px) 20px; position:relative; z-index:2; }
@@ -879,4 +869,66 @@
     0%{ text-shadow:0 0 0 transparent; }
     35%{ text-shadow:0 0 26px rgba(77,232,255,.55), 0 0 46px rgba(255,95,168,.25); }
     100%{ text-shadow:0 0 0 transparent; }
+  }
+
+  /* ===== custom cursor (desktop only) ===== */
+  .cursor-dot, .cursor-ring{ position:fixed; top:0; left:0; pointer-events:none; z-index:9996; border-radius:50%; opacity:0; }
+  .cursor-dot{ width:6px; height:6px; background:var(--cyan); box-shadow:0 0 8px var(--cyan); }
+  .cursor-ring{
+    width:34px; height:34px; border:1.5px solid rgba(77,232,255,.5);
+    transition:width .25s ease, height .25s ease, border-color .25s ease, background .25s ease, opacity .3s ease;
+  }
+  .cursor-ring.cursor-hover{ width:56px; height:56px; background:rgba(255,95,168,.1); border-color:var(--pink); }
+  html.has-custom-cursor .cursor-dot, html.has-custom-cursor .cursor-ring{ opacity:1; }
+  html.has-custom-cursor, html.has-custom-cursor a, html.has-custom-cursor button,
+  html.has-custom-cursor .tilt-card, html.has-custom-cursor .spotlight-card, html.has-custom-cursor .proj-btn{
+    cursor:none;
+  }
+
+  /* ===== magnetic buttons ===== */
+  .magnetic{ transition:transform .25s cubic-bezier(.2,.8,.3,1); will-change:transform; }
+
+  /* ===== tech marquee ticker ===== */
+  .ticker-strip{
+    overflow:hidden; border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:rgba(255,255,255,.02); padding:14px 0; position:relative; z-index:2;
+  }
+  .ticker-track{ display:flex; align-items:center; gap:22px; width:max-content; animation:tickerScroll 28s linear infinite; }
+  .ticker-track span{ font-family:'JetBrains Mono',monospace; font-size:12px; letter-spacing:2.5px; color:var(--muted); white-space:nowrap; }
+  .ticker-track .tick-sep{ color:var(--pink); font-size:10px; }
+  @keyframes tickerScroll{ from{ transform:translateX(0); } to{ transform:translateX(-50%); } }
+  .ticker-strip:hover .ticker-track{ animation-play-state:paused; }
+
+  @media (prefers-reduced-motion:reduce){
+    .ticker-track{ animation:none; }
+  }
+  @media (max-width:640px){
+    .ticker-track span{ font-size:10.5px; letter-spacing:1.5px; }
+  }
+  @media (hover:none), (pointer:coarse){
+    .cursor-dot, .cursor-ring{ display:none; }
+  }
+
+  /* ===== ambient cursor-follow glow (very subtle, site-wide) ===== */
+  .ambient-glow{
+    position:fixed; top:0; left:0; width:480px; height:480px; border-radius:50%;
+    background:radial-gradient(circle, rgba(77,232,255,.09), rgba(255,95,168,.05) 45%, transparent 72%);
+    pointer-events:none; z-index:1; filter:blur(20px); opacity:0;
+    transition:opacity .5s ease; transform:translate(-50%,-50%); mix-blend-mode:screen;
+  }
+  html.has-custom-cursor .ambient-glow{ opacity:1; }
+
+  /* ===== click ripple ===== */
+  .btn, .proj-btn, .float-top, .social-icon{ position:relative; overflow:hidden; }
+  .ripple{
+    position:absolute; border-radius:50%; background:rgba(255,255,255,.32);
+    transform:scale(0); animation:rippleAnim .65s ease-out forwards; pointer-events:none;
+  }
+  @keyframes rippleAnim{ to{ transform:scale(1); opacity:0; } }
+
+  /* ===== tactile press feedback ===== */
+  .btn:active, .proj-btn:active, .float-top:active, .social-icon:active{ transform:scale(.94) !important; }
+
+  @media (hover:none), (pointer:coarse){
+    .ambient-glow{ display:none; }
   }
