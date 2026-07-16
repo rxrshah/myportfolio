@@ -154,11 +154,8 @@
     const finishIntro = ()=>{
       document.documentElement.classList.remove('intro-lock');
       if(intro){
-        intro.classList.add('intro-glitch');
-        setTimeout(()=>{
-          intro.classList.add('intro-hide');
-          setTimeout(()=> intro.remove(), 900);
-        }, 320);
+        intro.classList.add('intro-hide');
+        setTimeout(()=> intro.remove(), 900);
       }
     };
     if(reduceMotion){
@@ -745,4 +742,125 @@
         }
       }
     });
+  })();
+
+  const isDesktopPointer = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+
+  // ---- custom cursor: glowing dot + trailing ring, morphs on hover ----
+  if(isDesktopPointer && !reduceMotion){
+    const cursorDot = document.getElementById('cursorDot');
+    const cursorRing = document.getElementById('cursorRing');
+    const ambientGlow = document.getElementById('ambientGlow');
+    if(cursorDot && cursorRing){
+      document.documentElement.classList.add('has-custom-cursor');
+      let mx = window.innerWidth/2, my = window.innerHeight/2, rx = mx, ry = my, gx = mx, gy = my;
+      window.addEventListener('mousemove', (e)=>{
+        mx = e.clientX; my = e.clientY;
+        cursorDot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+      });
+      (function ringLoop(){
+        rx += (mx - rx) * 0.18;
+        ry += (my - ry) * 0.18;
+        cursorRing.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+        if(ambientGlow){
+          gx += (mx - gx) * 0.07;
+          gy += (my - gy) * 0.07;
+          ambientGlow.style.transform = `translate(${gx}px, ${gy}px) translate(-50%,-50%)`;
+        }
+        requestAnimationFrame(ringLoop);
+      })();
+      document.querySelectorAll('a, button, .tilt-card, .spotlight-card, .proj-btn').forEach(el=>{
+        el.addEventListener('mouseenter', ()=> cursorRing.classList.add('cursor-hover'));
+        el.addEventListener('mouseleave', ()=> cursorRing.classList.remove('cursor-hover'));
+      });
+    }
+  }
+
+  // ---- magnetic buttons: gently pull toward the cursor ----
+  if(isDesktopPointer && !reduceMotion){
+    document.querySelectorAll('.magnetic').forEach(el=>{
+      el.addEventListener('mousemove', (e)=>{
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width/2) * 0.28;
+        const y = (e.clientY - r.top - r.height/2) * 0.28;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      el.addEventListener('mouseleave', ()=>{ el.style.transform = 'translate(0,0)'; });
+    });
+
+    // a lighter magnetic touch on nav links, keeps their underline hover intact
+    document.querySelectorAll('.navlinks a').forEach(el=>{
+      el.addEventListener('mousemove', (e)=>{
+        const r = el.getBoundingClientRect();
+        const x = (e.clientX - r.left - r.width/2) * 0.16;
+        const y = (e.clientY - r.top - r.height/2) * 0.5;
+        el.style.transform = `translate(${x}px, ${y}px)`;
+      });
+      el.addEventListener('mouseleave', ()=>{ el.style.transform = 'translate(0,0)'; });
+    });
+  }
+
+  // ---- click ripple: small tactile flourish on primary interactive elements ----
+  document.querySelectorAll('.btn, .proj-btn, .float-top, .social-icon').forEach(el=>{
+    el.addEventListener('click', (e)=>{
+      const rect = el.getBoundingClientRect();
+      const size = Math.max(rect.width, rect.height) * 1.8;
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.width = ripple.style.height = size + 'px';
+      ripple.style.left = (e.clientX - rect.left - size/2) + 'px';
+      ripple.style.top = (e.clientY - rect.top - size/2) + 'px';
+      el.appendChild(ripple);
+      ripple.addEventListener('animationend', ()=> ripple.remove());
+    });
+  });
+
+  // ---- text scramble / decode-in effect for headings ----
+  (function(){
+    const SCRAMBLE_CHARS = '!<>-_\\/[]{}=+*^?#01';
+    function scrambleInto(el, finalText, duration){
+      const steps = Math.max(10, Math.round(duration / 35));
+      const len = finalText.length;
+      let frame = 0;
+      function tick(){
+        let out = '';
+        for(let i=0;i<len;i++){
+          const ch = finalText[i];
+          if(ch === ' '){ out += ' '; continue; }
+          const revealAt = (i/len) * steps;
+          out += (frame >= revealAt + steps*0.35) ? ch : SCRAMBLE_CHARS[Math.floor(Math.random()*SCRAMBLE_CHARS.length)];
+        }
+        el.textContent = out;
+        frame++;
+        if(frame <= steps) requestAnimationFrame(tick);
+        else el.textContent = finalText;
+      }
+      tick();
+    }
+
+    const targets = document.querySelectorAll('.scramble-target');
+    if(!targets.length) return;
+
+    if(reduceMotion){ return; } // leave static final text as-is
+
+    // hero name: scramble in shortly after the intro finishes
+    const heroTargets = document.querySelectorAll('.hero-title .scramble-target');
+    setTimeout(()=>{
+      heroTargets.forEach((el,i)=>{
+        const text = el.textContent;
+        setTimeout(()=> scrambleInto(el, text, 650), i*120);
+      });
+    }, 3300);
+
+    // section headings: scramble in once, first time they scroll into view
+    const headingTargets = document.querySelectorAll('.sec-title.scramble-target');
+    const scrambleObserver = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          scrambleInto(entry.target, entry.target.textContent, 600);
+          scrambleObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold:0.6 });
+    headingTargets.forEach(el=> scrambleObserver.observe(el));
   })();
