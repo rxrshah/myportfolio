@@ -776,27 +776,48 @@
     }
   }
 
-  // ---- magnetic buttons: gently pull toward the cursor ----
+  // ---- magnetic field: elements get pulled toward the cursor even from a
+  // short distance away, with elastic release. Stronger + wider reach. ----
   if(isDesktopPointer && !reduceMotion){
+    const magnetic = [];
     document.querySelectorAll('.magnetic').forEach(el=>{
-      el.addEventListener('mousemove', (e)=>{
-        const r = el.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width/2) * 0.28;
-        const y = (e.clientY - r.top - r.height/2) * 0.28;
-        el.style.transform = `translate(${x}px, ${y}px)`;
-      });
-      el.addEventListener('mouseleave', ()=>{ el.style.transform = 'translate(0,0)'; });
+      magnetic.push({ el, strength: parseFloat(el.dataset.magStrength) || 0.42, radius: parseFloat(el.dataset.magRadius) || 55 });
+    });
+    document.querySelectorAll('.navlinks a').forEach(el=>{
+      magnetic.push({ el, strength: 0.28, radius: 34 });
     });
 
-    // a lighter magnetic touch on nav links, keeps their underline hover intact
-    document.querySelectorAll('.navlinks a').forEach(el=>{
-      el.addEventListener('mousemove', (e)=>{
-        const r = el.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width/2) * 0.16;
-        const y = (e.clientY - r.top - r.height/2) * 0.5;
-        el.style.transform = `translate(${x}px, ${y}px)`;
+    let rects = [];
+    function refreshMagRects(){
+      rects = magnetic.map(m=>{
+        const r = m.el.getBoundingClientRect();
+        return { el:m.el, strength:m.strength, radius:m.radius,
+                 cx:r.left+r.width/2, cy:r.top+r.height/2, w:r.width, h:r.height };
       });
-      el.addEventListener('mouseleave', ()=>{ el.style.transform = 'translate(0,0)'; });
+    }
+    refreshMagRects();
+    window.addEventListener('resize', refreshMagRects);
+    window.addEventListener('scroll', refreshMagRects, { passive:true });
+
+    let pendingX = null, pendingY = null, magTicking = false;
+    function applyMagnetic(){
+      rects.forEach(m=>{
+        const dx = pendingX - m.cx;
+        const dy = pendingY - m.cy;
+        const field = Math.max(m.w, m.h)/2 + m.radius;
+        const dist = Math.hypot(dx, dy);
+        if(dist < field){
+          const pull = (1 - dist/field) * m.strength;
+          m.el.style.transform = `translate(${dx*pull}px, ${dy*pull}px)`;
+        } else {
+          m.el.style.transform = 'translate(0,0)';
+        }
+      });
+      magTicking = false;
+    }
+    window.addEventListener('mousemove', (e)=>{
+      pendingX = e.clientX; pendingY = e.clientY;
+      if(!magTicking){ magTicking = true; requestAnimationFrame(applyMagnetic); }
     });
   }
 
