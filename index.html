@@ -67,7 +67,7 @@
       <div class="hero-cta">
         <a class="btn solid magnetic" href="#projects"><span>View Projects</span></a>
         <a class="btn outline magnetic" href="#contact"><span>Get In Touch</span></a>
-        <a class="btn resume magnetic" href="assets/Ritik-Kumar-Resume.pdf" download="Ritik-Kumar-Resume.pdf"><span>⬇ Download Resume</span></a>
+        <a class="btn resume magnetic resume-preview-trigger" href="assets/Ritik-Kumar-Resume.pdf" id="resumePreviewBtn"><span>👁 Preview Resume</span></a>
       </div>
       <div class="stack-chips">
         <span class="chip">Python</span>
@@ -159,7 +159,7 @@
           <small>Resume, code, or a quick message — pick one.</small>
         </div>
         <div class="bento-connect-links">
-          <a class="proj-btn live" href="assets/Ritik-Kumar-Resume.pdf" download="Ritik-Kumar-Resume.pdf">⬇ Resume</a>
+          <a class="proj-btn live resume-preview-trigger" href="assets/Ritik-Kumar-Resume.pdf">👁 Preview Resume</a>
           <a class="proj-btn code" href="https://github.com/rxrshah" target="_blank" rel="noopener">GitHub</a>
           <a class="proj-btn code" href="#contact">Email</a>
         </div>
@@ -597,7 +597,7 @@
         </div>
       </div>
       <div class="contact-figure reveal-right">
-        <img src="assets/images/contact-figure.png" alt="Character illustration" />
+        <img id="contactFigureImg" src="assets/images/contact-figure.png" alt="Character illustration" />
       </div>
     </div>
   </section>
@@ -611,6 +611,19 @@
 
 <div class="toast" id="toast">Thanks! I’ll get back soon.</div>
 <div class="egg-overlay" id="eggOverlay"><span id="eggText"></span></div>
+
+<div class="resume-modal-overlay" id="resumeModalOverlay">
+  <div class="resume-modal">
+    <div class="resume-modal-head">
+      <span class="mono">Ritik-Kumar-Resume.pdf</span>
+      <div class="resume-modal-actions">
+        <a href="assets/Ritik-Kumar-Resume.pdf" target="_blank" rel="noopener" class="proj-btn code">Open in new tab ↗</a>
+        <button class="resume-modal-close" id="resumeModalClose" aria-label="Close preview">✕</button>
+      </div>
+    </div>
+    <iframe id="resumeFrame" src="" title="Ritik Kumar — Resume preview" loading="lazy"></iframe>
+  </div>
+</div>
 <button class="float-top magnetic" id="floatTop" aria-label="Back to top" title="Back to top">↑</button>
 <div class="cursor-dot" id="cursorDot"></div>
 <div class="cursor-ring" id="cursorRing"></div>
