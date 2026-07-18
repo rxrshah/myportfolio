@@ -363,6 +363,19 @@
         }
       });
     });
+
+    // ---- dramatic small → large scroll zoom on the contact illustration ----
+    const contactFigureImg = document.getElementById('contactFigureImg');
+    if(contactFigureImg){
+      contactFigureImg.style.animation = 'none'; // replacing the passive "bob" float with scroll-tied motion
+      gsap.fromTo(contactFigureImg, { scale:0.45, opacity:0.5, y:60 }, {
+        scale:1.08, opacity:1, y:0, ease:'power2.out',
+        scrollTrigger:{
+          trigger: contactFigureImg.closest('section'),
+          start:'top 85%', end:'top 25%', scrub:0.7
+        }
+      });
+    }
   }
 
   // ---- scroll reveal (fallback for browsers without GSAP/network) ----
@@ -884,4 +897,28 @@
       });
     }, { threshold:0.6 });
     headingTargets.forEach(el=> scrambleObserver.observe(el));
+  })();
+
+  // ---- resume preview modal (no forced download — just an inline preview) ----
+  (function(){
+    const overlay = document.getElementById('resumeModalOverlay');
+    const frame = document.getElementById('resumeFrame');
+    const closeBtn = document.getElementById('resumeModalClose');
+    if(!overlay || !frame) return;
+    const RESUME_SRC = 'assets/Ritik-Kumar-Resume.pdf';
+
+    function openResume(e){
+      if(e) e.preventDefault();
+      if(!frame.src || !frame.src.includes('Resume.pdf')) frame.src = RESUME_SRC;
+      overlay.classList.add('open');
+    }
+    function closeResume(){
+      overlay.classList.remove('open');
+    }
+    document.querySelectorAll('.resume-preview-trigger').forEach(link=>{
+      link.addEventListener('click', openResume);
+    });
+    if(closeBtn) closeBtn.addEventListener('click', closeResume);
+    overlay.addEventListener('click', (e)=>{ if(e.target === overlay) closeResume(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key === 'Escape') closeResume(); });
   })();
